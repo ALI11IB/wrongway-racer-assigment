@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import io from "socket.io-client";
-import "./App.css";
 
 const socket = io("wss://wrongway-racer-api.spls.ae/");
 function App() {
@@ -11,6 +10,10 @@ function App() {
   useEffect(() => {
     socket.on("connect", () => {
       setIsConnected(true);
+    });
+    socket.onAny((eventName, ...args) => {
+      console.log(eventName, "eventName");
+      console.log(args, "args");
     });
     socket.on("disconnect", () => {
       setIsConnected(false);
