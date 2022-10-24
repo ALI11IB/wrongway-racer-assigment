@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { Box, Container, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import io from "socket.io-client";
-
+import { Chat, MainScreen, Players, Scores } from "../components";
 const socket = io("wss://wrongway-racer-api.spls.ae/");
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -10,10 +11,10 @@ function App() {
     socket.on("connect", () => {
       setIsConnected(true);
     });
-    socket.onAny((eventName, ...args) => {
-      console.log(eventName, "eventName");
-      // console.log(args, "args");
-    });
+    // socket.onAny((eventName, ...args) => {
+    //   console.log( "players newEnemy newChatJoin newChat ");
+    //   // console.log(args, "args");
+    // });
     socket.on("disconnect", () => {
       setIsConnected(false);
     });
@@ -34,18 +35,24 @@ function App() {
   console.log(isConnected, lastPong, "lastPong");
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box sx={{ flexGrow: 1, backgroundColor: "#180C3C" }}>
+      <Container maxWidth="lg">
+        <Grid container display="flex" justifyContent="center">
+          <Grid item xs={12} mt={8} mb={3}>
+            <MainScreen />
+          </Grid>
+          <Grid item lg={3} mb={3}>
+            <Scores />
+          </Grid>
+          <Grid item lg={5} mx={6} mb={3}>
+            <Chat />
+          </Grid>
+          <Grid item lg={3} mb={3}>
+            <Players />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 }
 
